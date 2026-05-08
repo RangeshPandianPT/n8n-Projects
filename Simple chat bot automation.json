@@ -1,0 +1,110 @@
+{
+  "name": "Simple chat bot automation",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "llama3.2:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        656,
+        176
+      ],
+      "id": "fb5ad0d3-591c-4475-b9ff-6895bf3d1040",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "D82x443pakBwGXaC",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        832,
+        176
+      ],
+      "id": "fe4c38e6-b9dc-413a-b4da-b7a06f79080c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        496,
+        -80
+      ],
+      "id": "fe1619a7-4987-4ea3-9576-ac36513699c7",
+      "name": "When chat message received",
+      "webhookId": "70bbb5ca-5d51-445f-bb01-c413c19f6c10"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        736,
+        -80
+      ],
+      "id": "dda15f10-55d2-4c47-9a91-fba84ba26d00",
+      "name": "AI Agent"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5f2fb361-97f3-4a4f-bcd7-431655b438eb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f151dfbd0d64ca44dfa6f91dda8f8ea200bf584ed90203b549713a64a8c17fa4"
+  },
+  "id": "RAd4sI7qnMZturPD",
+  "tags": []
+}

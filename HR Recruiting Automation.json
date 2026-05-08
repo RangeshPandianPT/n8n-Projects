@@ -1,0 +1,344 @@
+{
+  "name": "HR Recruiting Automation - Naukri Candidate Filtering and Scoring",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "candidate-filter",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "8eadbd54-e17d-4b54-a325-fa89de9c417f",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1184,
+        -112
+      ],
+      "webhookId": "9a8ff338-124d-45b4-bc9f-303d2d4bac2f"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "minMatchPercentage",
+              "value": 60,
+              "type": "number"
+            },
+            {
+              "id": "id-2",
+              "name": "maxPossibleScore",
+              "value": 100,
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "c09134a9-c891-48fb-b795-8dce967b53cf",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1408,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Candidate Data:\n{{ JSON.stringify($json.candidates) }}\n\nClient Required Tech Stack:\n{{ JSON.stringify($json.requiredTechStack) }}\n\nAdditional Instructions:\n{{ $json.additionalInstructions || \"None\" }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an HR automation assistant specialized in candidate filtering and scoring.\n\nYour task is to analyze candidate profiles against client requirements and return structured results.\n\n## SCORING LOGIC\n\nFor each candidate, calculate match score using:\n- Exact keyword match: +5 points\n- Partial match / synonym: +3 points\n- Relevant experience keyword: +2 points\n- Irrelevant / mismatch: 0 points\n\nCalculate:\n- Match Score = Sum of all relevant points\n- Match Percentage = (Match Score / Maximum Possible Score) × 100\n\n## DECISION RULES\n\nA candidate is \"Shortlisted\" if:\n- Match percentage ≥ 60%\n- Experience within required range (if specified)\n- Location matches (if required)\n- Notice period acceptable (if provided)\n\nOtherwise: \"Rejected\"\n\n## OUTPUT FORMAT\n\nReturn a JSON array of candidate objects with:\n- candidateName\n- experience\n- skills (array)\n- location\n- noticePeriod\n- currentCompany\n- expectedSalary\n- matchScore (number)\n- matchPercentage (number)\n- status (\"Shortlisted\" or \"Rejected\")\n- matchedSkills (array of matched keywords)\n- reasoning (brief explanation of decision)\n\nOnly include candidates that meet the criteria. Be thorough in skill matching and consider synonyms and related technologies."
+        }
+      },
+      "id": "1d1bae7b-fe36-47c3-8ab0-92d1084185f0",
+      "name": "Candidate Analyzer Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1632,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual"
+      },
+      "id": "1248b0f0-7b34-4108-8cc1-46b9746e67ae",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1840,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a69bfada-f69c-4780-bb6a-30e72a758a81",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2656,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $('Candidate Analyzer Agent').item.json.status }}",
+              "rightValue": "Shortlisted",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ed878ba3-fde6-4e06-b226-0ed762788ea0",
+      "name": "Check if Shortlisted",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "skillsList",
+              "value": "={{ $json.skills.join(\", \") }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "matchedSkillsList",
+              "value": "={{ $json.matchedSkills.join(\", \") }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "85eaf4a3-96e0-4eac-b647-62a9f9fef50c",
+      "name": "Format for Excel",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2208,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        144
+      ],
+      "id": "74b93735-b874-4cfb-af1c-964217ebbc3c",
+      "name": "Ollama Chat Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "D82x443pakBwGXaC",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1664,
+        240
+      ],
+      "id": "17a482bd-ac7b-42b5-8730-46145b6468ca",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1GBkgadvvp_0V6m-TIadM7kXdKbRx82vi_j_nX8_hpg8/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2432,
+        -32
+      ],
+      "id": "1eddcae7-c77a-402c-aeb4-5ba1f29c2eea",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2OB7ikZ5g2rVrdCW",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Candidate Analyzer Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Candidate Analyzer Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Candidate Analyzer Agent": {
+      "main": [
+        [
+          {
+            "node": "Check if Shortlisted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Shortlisted": {
+      "main": [
+        [
+          {
+            "node": "Format for Excel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format for Excel": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Candidate Analyzer Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Candidate Analyzer Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5828cb1e-d2f7-4398-ba72-80e62181042b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f151dfbd0d64ca44dfa6f91dda8f8ea200bf584ed90203b549713a64a8c17fa4"
+  },
+  "id": "RAd4sI7qnMZturPD",
+  "tags": []
+}
