@@ -1,7 +1,40 @@
 # n8n-Projects
 
 A curated collection of **n8n automation workflows** designed to streamline real world tasks such as LinkedIn content creation, HR recruitment automation, chatbot interactions, and AI powered personal assistance.
-This repository serves as a practical reference for building scalable, low code automation solutions using **n8n**, APIs, and AI integrations.
+# n8n-Projects
+
+This repository contains a collection of n8n workflows for various automation tasks.
+
+## Workflows
+
+### AI Powered Telegram Personal Assistant
+- **File:** `AI Powered Telegram Personal Assistant.json`
+- **Description:** This workflow creates a personal assistant on Telegram that can interact with Google Calendar, Gmail, and Baserow to manage tasks and contacts. It can understand natural language queries and respond with relevant information. It can also handle voice messages by transcribing them to text.
+
+### Automate LinkedIn post creation
+- **File:** `Automate LinkedIn post creation.json`
+- **Description:** This workflow automates the creation of LinkedIn posts. It uses Google Gemini to generate content topics, create post content, and generate relevant hashtags. It also uses DALL-E to generate images for the posts. The workflow is scheduled to run at regular intervals.
+
+### HR Recruiting Automation
+- **File:** `HR Recruiting Automation.json`
+- **Description:** This workflow automates the HR recruiting process. It receives candidate data through a webhook, filters and scores candidates based on a required tech stack, and shortlists them. The shortlisted candidates are then added to a Google Sheet.
+
+### Simple chat bot automation
+- **File:** `Simple chat bot automation.json`
+- **Description:** This is a simple chatbot that uses an AI agent to respond to user messages. It can be used as a starting point for building more complex chatbots.
+
+### Social Media Auto-Poster
+- **File:** `Social Media Auto-Poster.json`
+- **Description:** This workflow automatically creates and posts social media content to Twitter and LinkedIn. It fetches articles from an RSS feed, uses an AI to generate a Twitter thread and a LinkedIn post, and then posts them.
+
+### Daily News Briefing
+- **File:** `Daily News Briefing.json`
+- **Description:** This workflow fetches the top news stories from the BBC News RSS feed and sends them to you in an email.
+
+### E-commerce Order Notification
+- **File:** `E-commerce Order Notification.json`
+- **Description:** This workflow listens for new e-commerce orders via a webhook and sends a notification to a Slack channel.
+
 
 ## 📂 Repository Structure
 
