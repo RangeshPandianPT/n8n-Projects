@@ -58,11 +58,11 @@
         140
       ],
       "id": "595f46ad-7d72-4cf4-9128-48b4fb9b6a05",
-      "name": "Twitter / X (Draft)"
+      "name": "Post to Twitter / X"
     },
     {
       "parameters": {
-        "text": "={{ $json.output }}",
+        "text": "={{ $json.output.linkedin_post }}",
         "options": {}
       },
       "type": "n8n-nodes-base.linkedIn",
@@ -72,7 +72,7 @@
         340
       ],
       "id": "d047a503-4903-4cd2-b670-3d3cb0fb2f6d",
-      "name": "LinkedIn (Draft)"
+      "name": "Post to LinkedIn"
     }
   ],
   "pinData": {},
@@ -103,12 +103,12 @@
       "main": [
         [
           {
-            "node": "Twitter / X (Draft)",
+            "node": "Post to Twitter / X",
             "type": "main",
             "index": 0
           },
           {
-            "node": "LinkedIn (Draft)",
+            "node": "Post to LinkedIn",
             "type": "main",
             "index": 0
           }
