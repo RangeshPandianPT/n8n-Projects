@@ -1,0 +1,34 @@
+{
+  "name": "Global Error Handler",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [100, 200],
+      "id": "error-trigger",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "=Workflow {{ $json.workflow.name }} failed at node {{ $json.execution.lastNodeExecuted }}.\n\nError: {{ $json.execution.error.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [350, 200],
+      "id": "telegram-alert",
+      "name": "Telegram Alert"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [{"node": "Telegram Alert", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {}
+}
