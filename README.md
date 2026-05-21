@@ -35,6 +35,18 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `E-commerce Order Notification.json`
 - **Description:** This workflow listens for new e-commerce orders via a webhook and sends a notification to a Slack channel.
 
+### Social Media Auto-Poster (with Approval)
+- **File:** `Social Media Auto-Poster (with Approval).json`
+- **Description:** An enhanced version of the Social Media Auto-Poster that adds a Slack "human-in-the-loop" approval step before posting to Twitter and LinkedIn.
+
+### Customer Support Ticket Triage
+- **File:** `Customer Support Ticket Triage.json`
+- **Description:** A workflow that monitors a support inbox webhook, uses an LLM to categorize the intent (Billing, Technical, General), and routes it to the correct Slack channel.
+
+### Global Error Handler
+- **File:** `Global Error Handler.json`
+- **Description:** A universal error-handling workflow that catches failures across any of your main workflows and alerts you immediately via Telegram.
+
 
 ## 📂 Repository Structure
 
@@ -51,6 +63,15 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **Simple chat bot automation.json**
   A lightweight chatbot workflow demonstrating basic conversational automation and webhook based interactions.
+
+* **Social Media Auto-Poster (with Approval).json**
+  Enhanced auto-poster with a Slack approval gateway.
+
+* **Customer Support Ticket Triage.json**
+  AI-driven categorization and routing for incoming customer support tickets.
+
+* **Global Error Handler.json**
+  Centralized error reporting workflow triggered by failures in other workflows.
 
 ## 🛠️ Tech Stack
 
