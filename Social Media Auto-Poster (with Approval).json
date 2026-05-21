@@ -1,0 +1,100 @@
+{
+  "name": "Social Media Auto-Poster (with Approval)",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://n8n.io/blog/rss/"
+      },
+      "id": "8c59f0f9-a292-4847-a8bd-56ccf6682283",
+      "name": "RSS Feed Trigger",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [180, 240]
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [400, 420],
+      "id": "b1a62d7c-87d2-45e0-b6a7-0e625a691b1a",
+      "name": "Ollama Chat Model"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert social media manager. I will provide an article from an RSS feed. Please write 1 Twitter thread and 1 LinkedIn post based on the article content.\n\nTitle: {{$json.title}}\nLink: {{$json.link}}\nContent Snippet: {{$json.contentSnippet}}",
+        "options": {
+          "systemMessage": "Output a valid JSON object with two keys: 'twitter_thread' and 'linkedin_post'."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [400, 240],
+      "id": "42f2b3e8-54c3-4d69-b572-8d76dbcfb303",
+      "name": "AI Social Media Creator"
+    },
+    {
+      "parameters": {
+        "channel": "#approvals",
+        "text": "=Please approve the following post:\n\n{{ $json.output }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [600, 240],
+      "id": "slack-approval-node",
+      "name": "Slack Approval Wait"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.output.twitter_thread }}"
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [820, 140],
+      "id": "595f46ad-7d72-4cf4-9128-48b4fb9b6a05",
+      "name": "Post to Twitter / X"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.output.linkedin_post }}"
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [820, 340],
+      "id": "d047a503-4903-4cd2-b670-3d3cb0fb2f6d",
+      "name": "Post to LinkedIn"
+    }
+  ],
+  "connections": {
+    "RSS Feed Trigger": {
+      "main": [
+        [{"node": "AI Social Media Creator", "type": "main", "index": 0}]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [{"node": "AI Social Media Creator", "type": "ai_languageModel", "index": 0}]
+      ]
+    },
+    "AI Social Media Creator": {
+      "main": [
+        [{"node": "Slack Approval Wait", "type": "main", "index": 0}]
+      ]
+    },
+    "Slack Approval Wait": {
+      "main": [
+        [
+          {"node": "Post to Twitter / X", "type": "main", "index": 0},
+          {"node": "Post to LinkedIn", "type": "main", "index": 0}
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
