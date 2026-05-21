@@ -1,0 +1,134 @@
+{
+  "name": "Customer Support Ticket Triage",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-ticket",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [100, 200]
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [300, 350],
+      "id": "ollama-model",
+      "name": "Ollama Chat Model"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following support ticket and classify it into one of these categories: 'Billing', 'Technical', 'General'.\n\nTicket Subject: {{$json.subject}}\nTicket Body: {{$json.body}}",
+        "options": {
+          "systemMessage": "Return only a JSON with the key 'category' and a brief 'reason'."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [300, 200],
+      "id": "ticket-classifier",
+      "name": "Ticket Classifier Agent"
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "rules": [
+            {
+              "id": "billing",
+              "outputKey": "Billing",
+              "conditions": {
+                "conditions": [
+                  {"leftValue": "={{ $json.output.category }}", "operator": "equal", "rightValue": "Billing"}
+                ]
+              }
+            },
+            {
+              "id": "technical",
+              "outputKey": "Technical",
+              "conditions": {
+                "conditions": [
+                  {"leftValue": "={{ $json.output.category }}", "operator": "equal", "rightValue": "Technical"}
+                ]
+              }
+            }
+          ]
+        },
+        "fallbackOutput": 2
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [500, 200],
+      "id": "router",
+      "name": "Route by Category"
+    },
+    {
+      "parameters": {
+        "channel": "#support-billing",
+        "text": "=New Billing Ticket:\n{{ $json.subject }}\nReason: {{ $json.output.reason }}"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [700, 100],
+      "id": "slack-billing",
+      "name": "Slack (Billing)"
+    },
+    {
+      "parameters": {
+        "channel": "#support-tech",
+        "text": "=New Tech Ticket:\n{{ $json.subject }}\nReason: {{ $json.output.reason }}"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [700, 200],
+      "id": "slack-tech",
+      "name": "Slack (Tech)"
+    },
+    {
+      "parameters": {
+        "channel": "#support-general",
+        "text": "=New General Ticket:\n{{ $json.subject }}\nReason: {{ $json.output.reason }}"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [700, 300],
+      "id": "slack-general",
+      "name": "Slack (General)"
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [{"node": "Ticket Classifier Agent", "type": "main", "index": 0}]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [{"node": "Ticket Classifier Agent", "type": "ai_languageModel", "index": 0}]
+      ]
+    },
+    "Ticket Classifier Agent": {
+      "main": [
+        [{"node": "Route by Category", "type": "main", "index": 0}]
+      ]
+    },
+    "Route by Category": {
+      "main": [
+        [{"node": "Slack (Billing)", "type": "main", "index": 0}],
+        [{"node": "Slack (Tech)", "type": "main", "index": 0}],
+        [{"node": "Slack (General)", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {}
+}
