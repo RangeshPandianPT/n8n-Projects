@@ -47,6 +47,18 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `Global Error Handler.json`
 - **Description:** A universal error-handling workflow that catches failures across any of your main workflows and alerts you immediately via Telegram.
 
+### Crypto Price Alert Bot
+- **File:** `Crypto Price Alert Bot.json`
+- **Description:** Periodically checks cryptocurrency prices and sends a Telegram alert if there's a significant drop or spike.
+
+### GitHub PR Reviewer
+- **File:** `GitHub PR Reviewer.json`
+- **Description:** Automatically reviews new GitHub Pull Requests using an LLM and posts the review comments directly on the PR.
+
+### Personal Finance Tracker
+- **File:** `Personal Finance Tracker.json`
+- **Description:** Monitors your Gmail for bank transaction emails, uses AI to extract vendor, amount, and category, and logs it into a Google Sheet.
+
 
 ## 📂 Repository Structure
 
@@ -72,6 +84,15 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **Global Error Handler.json**
   Centralized error reporting workflow triggered by failures in other workflows.
+
+* **Crypto Price Alert Bot.json**
+  Checks crypto prices and sends alerts to Telegram.
+
+* **GitHub PR Reviewer.json**
+  An automated code reviewer for GitHub Pull Requests.
+
+* **Personal Finance Tracker.json**
+  Automates personal finance tracking from email receipts to Google Sheets.
 
 ## 🛠️ Tech Stack
 

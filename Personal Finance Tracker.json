@@ -1,0 +1,112 @@
+{
+  "name": "Personal Finance Tracker",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "query": "subject:\"Your receipt\" OR subject:\"Transaction Alert\""
+      },
+      "id": "node-gmail-trigger",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Extract the vendor, amount, and category from the email receipt. Output JSON: {\"vendor\":\"...\",\"amount\":...,\"category\":\"...\"}"
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.snippet }}"
+            }
+          ]
+        }
+      },
+      "id": "node-openai",
+      "name": "OpenAI",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Transactions",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.date }}",
+            "Vendor": "={{ JSON.parse($json.message.content).vendor }}",
+            "Amount": "={{ JSON.parse($json.message.content).amount }}",
+            "Category": "={{ JSON.parse($json.message.content).category }}"
+          }
+        }
+      },
+      "id": "node-google-sheets",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        650,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "personal-finance-tracker",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}
