@@ -1,0 +1,90 @@
+{
+  "name": "Cold Email Outreach Automator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "sheetId": "YOUR_SHEET_ID"
+      },
+      "name": "Google Sheets - Read Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "prompt": "Write a personalized cold email for this lead. Name: {{ $json.Name }}, Company: {{ $json.Company }}."
+      },
+      "name": "OpenAI - Personalize Email",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "Quick question regarding {{ $json.Company }}",
+        "message": "={{ $node['OpenAI - Personalize Email'].json.message.content }}",
+        "recipient": "={{ $json.Email }}"
+      },
+      "name": "Gmail - Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Read Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Read Leads": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Personalize Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Personalize Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
