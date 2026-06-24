@@ -1,0 +1,97 @@
+{
+  "name": "Website Uptime & Health Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://yourwebsite.com",
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "ignoreResponseCode": true
+        }
+      },
+      "name": "Ping Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "notEqual",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "name": "IF - Status != 200",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "webhookUri": "YOUR_DISCORD_WEBHOOK_URL",
+        "text": "🚨 ALERT: Website is DOWN! Status code: {{ $json.statusCode }}"
+      },
+      "name": "Discord - Send Alert",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Ping Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ping Website": {
+      "main": [
+        [
+          {
+            "node": "IF - Status != 200",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Status != 200": {
+      "main": [
+        [
+          {
+            "node": "Discord - Send Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
