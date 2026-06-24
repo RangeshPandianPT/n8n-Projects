@@ -59,6 +59,34 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `Personal Finance Tracker.json`
 - **Description:** Monitors your Gmail for bank transaction emails, uses AI to extract vendor, amount, and category, and logs it into a Google Sheet.
 
+### Automated Invoice Generator & Sender
+- **File:** `Automated Invoice Generator & Sender.json`
+- **Description:** Triggers when a deal is closed or a row is added, generates a PDF invoice, and emails it to the client.
+
+### Meeting Notes Summarizer & Action Item Extractor
+- **File:** `Meeting Notes Summarizer & Action Item Extractor.json`
+- **Description:** Monitors a Google Drive folder for meeting notes, uses an LLM to summarize and extract action items, and saves them to Notion.
+
+### YouTube Video to SEO Blog Post Repurposer
+- **File:** `YouTube Video to SEO Blog Post Repurposer.json`
+- **Description:** Fetches a new YouTube video transcript, uses an LLM to rewrite it into an SEO optimized blog post, and drafts it in WordPress.
+
+### Cold Email Outreach Automator
+- **File:** `Cold Email Outreach Automator.json`
+- **Description:** Reads leads from Google Sheets, uses an LLM to generate highly personalized cold emails, and sends them via Gmail.
+
+### Daily Fitness & Habit Tracker Bot
+- **File:** `Daily Fitness & Habit Tracker Bot.json`
+- **Description:** A Telegram bot that tracks your daily habits using natural language processing via an LLM and logs the data to a spreadsheet.
+
+### Smart Bookmarking & Reading List Categorizer
+- **File:** `Smart Bookmarking & Reading List Categorizer.json`
+- **Description:** Receives a link via Telegram, scrapes the article content, categorizes and summarizes it using an LLM, and saves it to a Notion database.
+
+### Website Uptime & Health Monitor
+- **File:** `Website Uptime & Health Monitor.json`
+- **Description:** Regularly pings specific websites and sends an alert to a Discord or Slack channel if a site goes down or returns a non-200 status code.
+
 
 ## 📂 Repository Structure
 
@@ -93,6 +121,27 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **Personal Finance Tracker.json**
   Automates personal finance tracking from email receipts to Google Sheets.
+
+* **Automated Invoice Generator & Sender.json**
+  Generates and emails PDF invoices based on webhooks.
+
+* **Meeting Notes Summarizer & Action Item Extractor.json**
+  Uses AI to summarize meetings and extract tasks into Notion.
+
+* **YouTube Video to SEO Blog Post Repurposer.json**
+  Converts video transcripts to WordPress blog posts using AI.
+
+* **Cold Email Outreach Automator.json**
+  Sends personalized emails using data from Google Sheets and AI.
+
+* **Daily Fitness & Habit Tracker Bot.json**
+  A Telegram bot that logs habits into Google Sheets based on natural language.
+
+* **Smart Bookmarking & Reading List Categorizer.json**
+  Scrapes, categorizes, and saves web articles to Notion via Telegram.
+
+* **Website Uptime & Health Monitor.json**
+  Pings a website every 5 minutes and sends Discord alerts on failure.
 
 ## 🛠️ Tech Stack
 
