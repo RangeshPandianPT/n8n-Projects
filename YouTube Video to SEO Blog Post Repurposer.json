@@ -1,0 +1,91 @@
+{
+  "name": "YouTube Video to SEO Blog Post Repurposer",
+  "nodes": [
+    {
+      "parameters": {
+        "channelId": "YOUR_CHANNEL_ID",
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        }
+      },
+      "name": "YouTube Trigger",
+      "type": "n8n-nodes-base.youTubeTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example.com/youtube-transcript",
+        "options": {}
+      },
+      "name": "Fetch Transcript",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "prompt": "Convert this transcript into an SEO optimized blog post: {{ $json.transcript }}"
+      },
+      "name": "OpenAI - Write Blog Post",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "operation": "create",
+        "title": "={{ $node['YouTube Trigger'].json.title }}",
+        "content": "={{ $json.message.content }}",
+        "status": "draft"
+      },
+      "name": "WordPress - Draft Post",
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "YouTube Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Transcript": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Write Blog Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Write Blog Post": {
+      "main": [
+        [
+          {
+            "node": "WordPress - Draft Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
