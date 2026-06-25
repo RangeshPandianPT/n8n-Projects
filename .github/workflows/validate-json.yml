@@ -1,0 +1,26 @@
+name: Validate JSON Workflows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate JSON files
+        run: |
+          for file in *.json; do
+            if [ -f "$file" ]; then
+              echo "Validating $file"
+              jq empty "$file"
+              if [ $? -ne 0 ]; then
+                echo "❌ Error: $file is not valid JSON."
+                exit 1
+              fi
+            fi
+          done
+          echo "✅ All JSON files are valid!"
