@@ -1,0 +1,48 @@
+{
+  "name": "E-commerce Inventory Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "topic": "products/update",
+        "options": {}
+      },
+      "name": "Shopify Trigger",
+      "type": "n8n-nodes-base.shopifyTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "baseId": "YOUR_BASE_ID",
+        "tableId": "YOUR_TABLE_ID",
+        "updateBy": "id",
+        "id": "={{$json.body.id}}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Stock Level": "={{$json.body.inventory_quantity}}"
+          }
+        }
+      },
+      "name": "Update Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [450, 300]
+    }
+  ],
+  "connections": {
+    "Shopify Trigger": {
+      "main": [
+        [
+          {
+            "node": "Update Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
