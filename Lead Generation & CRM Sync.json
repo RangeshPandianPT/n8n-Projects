@@ -1,0 +1,65 @@
+{
+  "name": "Lead Generation & CRM Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "formId": "YOUR_TYPEFORM_ID"
+      },
+      "name": "Typeform Trigger",
+      "type": "n8n-nodes-base.typeformTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "enrich",
+        "email": "={{$json.body.email}}"
+      },
+      "name": "Clearbit",
+      "type": "n8n-nodes-base.clearbit",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "create",
+        "email": "={{$json.body.email}}",
+        "additionalFields": {
+          "firstName": "={{$json.body.person.name.givenName}}",
+          "lastName": "={{$json.body.person.name.familyName}}",
+          "companyName": "={{$json.body.company.name}}"
+        }
+      },
+      "name": "HubSpot",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Typeform Trigger": {
+      "main": [
+        [
+          {
+            "node": "Clearbit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clearbit": {
+      "main": [
+        [
+          {
+            "node": "HubSpot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
