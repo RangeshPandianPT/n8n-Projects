@@ -87,6 +87,18 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `Website Uptime & Health Monitor.json`
 - **Description:** Regularly pings specific websites and sends an alert to a Discord or Slack channel if a site goes down or returns a non-200 status code.
 
+### DevOps Incident Alert Routing
+- **File:** `DevOps Incident Alert Routing.json`
+- **Description:** Receives high severity incident webhooks from DevOps tools and routes critical alerts to a dedicated Slack channel.
+
+### E-commerce Inventory Sync
+- **File:** `E-commerce Inventory Sync.json`
+- **Description:** Triggers when a Shopify product goes out of stock and automatically updates an Airtable inventory database.
+
+### Lead Generation & CRM Sync
+- **File:** `Lead Generation & CRM Sync.json`
+- **Description:** Takes leads from a Typeform submission, enriches the data using Clearbit, and pushes the contact into HubSpot.
+
 
 ## 📂 Repository Structure
 
@@ -142,6 +154,15 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **Website Uptime & Health Monitor.json**
   Pings a website every 5 minutes and sends Discord alerts on failure.
+
+* **DevOps Incident Alert Routing.json**
+  Routes high-severity incidents to Slack.
+
+* **E-commerce Inventory Sync.json**
+  Syncs Shopify inventory updates to Airtable.
+
+* **Lead Generation & CRM Sync.json**
+  Enriches Typeform leads via Clearbit and syncs to HubSpot.
 
 ## 🛠️ Tech Stack
 

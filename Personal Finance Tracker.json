@@ -104,7 +104,9 @@
     }
   },
   "active": false,
-  "settings": {},
+  "settings": {
+    "errorWorkflow": "YOUR_GLOBAL_ERROR_HANDLER_ID"
+  },
   "id": "personal-finance-tracker",
   "meta": {
     "templateCredsSetupCompleted": true
