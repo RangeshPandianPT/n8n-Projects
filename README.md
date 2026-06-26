@@ -99,6 +99,21 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `Lead Generation & CRM Sync.json`
 - **Description:** Takes leads from a Typeform submission, enriches the data using Clearbit, and pushes the contact into HubSpot.
 
+### Expense Receipt OCR & Accounting Sync
+- **File:** `Expense Receipt OCR & Accounting Sync.json`
+- **Description:** Send a photo of a receipt to Telegram, extract merchant, date, amount, and tax using AI OCR, and log the data to Google Sheets.
+
+### Automated User Onboarding Drip Campaign
+- **File:** `Automated User Onboarding Drip Campaign.json`
+- **Description:** Sends a sequence of personalized onboarding emails via Gmail triggered by a webhook (e.g., new user signup), incorporating time delays between messages.
+
+### Competitor Website & Pricing Monitor
+- **File:** `Competitor Website & Pricing Monitor.json`
+- **Description:** Scrapes a competitor's pricing page daily, compares it against previously saved data, and sends a Slack alert if any changes are detected.
+
+### GitHub Issue to Project Management Sync
+- **File:** `GitHub Issue to Project Management Sync.json`
+- **Description:** Automatically creates tasks in Notion, Trello, or Jira whenever a new issue is opened in a GitHub repository, and alerts developers via Slack.
 
 ## 📂 Repository Structure
 
@@ -163,6 +178,18 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **Lead Generation & CRM Sync.json**
   Enriches Typeform leads via Clearbit and syncs to HubSpot.
+
+* **Expense Receipt OCR & Accounting Sync.json**
+  Uses AI OCR to extract data from receipt images and log to Google Sheets.
+
+* **Automated User Onboarding Drip Campaign.json**
+  Sends an automated sequence of welcome and pro-tips emails to new users.
+
+* **Competitor Website & Pricing Monitor.json**
+  Scrapes pricing pages and sends alerts on changes.
+
+* **GitHub Issue to Project Management Sync.json**
+  Syncs new GitHub issues to Notion/Jira boards automatically.
 
 ## 🛠️ Tech Stack
 
