@@ -1,0 +1,115 @@
+{
+  "name": "GitHub Issue to Project Management Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "owner": "your-github-username",
+        "repository": "your-repo-name",
+        "events": [
+          "issues"
+        ]
+      },
+      "id": "github-trigger",
+      "name": "GitHub Trigger",
+      "type": "n8n-nodes-base.githubTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.action }}",
+              "value2": "opened"
+            }
+          ]
+        }
+      },
+      "id": "if-issue-opened",
+      "name": "If Issue Opened",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": {
+          "__rl": true,
+          "value": "your_notion_database_id",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Task Name|title",
+              "titleValue": "={{ $json.issue.title }}"
+            },
+            {
+              "key": "Description|rich_text",
+              "textContent": "={{ $json.issue.body }}\n\nLink: {{ $json.issue.html_url }}"
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "To Do"
+            }
+          ]
+        }
+      },
+      "id": "notion",
+      "name": "Create Notion Task",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [600, 200]
+    },
+    {
+      "parameters": {
+        "channel": "dev-alerts",
+        "text": "New issue automatically synced to Notion: {{ $json.issue.title }} ({{ $json.issue.html_url }})"
+      },
+      "id": "slack",
+      "name": "Slack Confirmation",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [800, 200]
+    }
+  ],
+  "connections": {
+    "GitHub Trigger": {
+      "main": [
+        [
+          {
+            "node": "If Issue Opened",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Issue Opened": {
+      "main": [
+        [
+          {
+            "node": "Create Notion Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Notion Task": {
+      "main": [
+        [
+          {
+            "node": "Slack Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
