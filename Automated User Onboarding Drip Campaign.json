@@ -1,0 +1,136 @@
+{
+  "name": "Automated User Onboarding Drip Campaign",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-user-signup",
+        "options": {}
+      },
+      "id": "webhook",
+      "name": "Stripe / App Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "Welcome to our platform!",
+        "message": "Hi {{ $json.body.name }},\n\nWelcome! We are thrilled to have you on board. Here are some resources to get started.",
+        "options": {}
+      },
+      "id": "gmail-welcome",
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "days"
+      },
+      "id": "wait-2-days",
+      "name": "Wait 2 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Stripe / App Webhook').item.json.body.email }}",
+        "subject": "Pro tips for getting the most out of our app",
+        "message": "Hi {{ $('Stripe / App Webhook').item.json.body.name }},\n\nDid you know you can do X, Y, and Z? Check out our pro tips.",
+        "options": {}
+      },
+      "id": "gmail-tips",
+      "name": "Send Pro Tips Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "days"
+      },
+      "id": "wait-5-days",
+      "name": "Wait 5 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Stripe / App Webhook').item.json.body.email }}",
+        "subject": "How is your experience so far?",
+        "message": "Hi {{ $('Stripe / App Webhook').item.json.body.name }},\n\nWe'd love to hear your feedback!",
+        "options": {}
+      },
+      "id": "gmail-feedback",
+      "name": "Send Feedback Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Stripe / App Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 Days": {
+      "main": [
+        [
+          {
+            "node": "Send Pro Tips Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Pro Tips Email": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Days": {
+      "main": [
+        [
+          {
+            "node": "Send Feedback Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
