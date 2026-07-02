@@ -115,7 +115,25 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `GitHub Issue to Project Management Sync.json`
 - **Description:** Automatically creates tasks in Notion, Trello, or Jira whenever a new issue is opened in a GitHub repository, and alerts developers via Slack.
 
+### AI Newsletter Generator
+- **File:** `AI Newsletter Generator.json`
+- **Description:** Aggregates saved links, uses an LLM to summarize them, and drafts an email campaign.
+
+### Slack Knowledge Base Sync
+- **File:** `Slack Knowledge Base Sync.json`
+- **Description:** Listens for specific messages in Slack and automatically extracts and saves them to a Notion knowledge base.
+
+### Automated Customer Feedback Analyzer
+- **File:** `Automated Customer Feedback Analyzer.json`
+- **Description:** Monitors survey responses, analyzes sentiment, and routes negative reviews to a priority channel.
+
 ## 📂 Repository Structure
+
+* **`docs/`**
+  Contains auto-generated markdown documentation detailing the nodes used in each workflow.
+
+* **`scripts/`**
+  Contains automation scripts for the repository (e.g., `generate_docs.js`).
 
 Each file in this repository represents an independent n8n workflow exported in JSON format.
 
@@ -218,7 +236,7 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 ## 📌 Notes
 
-* Ensure all API credentials are securely stored using n8n credentials manager.
+* Ensure all API credentials are securely stored using n8n credentials manager. Please see [CREDENTIALS.md](./CREDENTIALS.md) for a guide on setting up external service connections.
 * Some workflows may require third party services such as OpenAI, Telegram, or LinkedIn APIs.
 * Modify nodes as needed to fit your specific use case.
 
