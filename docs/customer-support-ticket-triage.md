@@ -12,6 +12,16 @@ This is an exported n8n workflow for **Customer Support Ticket Triage**.
 - **Slack (Tech)** (n8n-nodes-base.slack)
 - **Slack (General)** (n8n-nodes-base.slack)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Webhook Trigger" --> "Ticket Classifier Agent";
+  "Ticket Classifier Agent" --> "Route by Category";
+  "Route by Category" --> "Slack (Billing)";
+  "Route by Category" --> "Slack (Tech)";
+  "Route by Category" --> "Slack (General)";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

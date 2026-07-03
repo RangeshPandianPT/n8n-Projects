@@ -12,6 +12,17 @@ This is an exported n8n workflow for **Competitor Website & Pricing Monitor**.
 - **Update Saved Price** (n8n-nodes-base.googleSheets)
 - **Slack Alert** (n8n-nodes-base.slack)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Daily Schedule" --> "Scrape Pricing Page";
+  "Scrape Pricing Page" --> "HTML Extract";
+  "HTML Extract" --> "Get Previous Price";
+  "Get Previous Price" --> "If Pricing Changed";
+  "If Pricing Changed" --> "Update Saved Price";
+  "If Pricing Changed" --> "Slack Alert";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

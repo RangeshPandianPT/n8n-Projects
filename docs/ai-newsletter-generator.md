@@ -1,16 +1,15 @@
-# E-commerce Order Notification
+# AI Newsletter Generator
 
 ## Overview
-This is an exported n8n workflow for **E-commerce Order Notification**.
+This is an exported n8n workflow for **AI Newsletter Generator**.
 
 ## Nodes Included
-- **Webhook** (n8n-nodes-base.webhook)
-- **Slack** (n8n-nodes-base.slack)
+- **When clicking "Execute Workflow"** (n8n-nodes-base.manualTrigger)
 
 ## Workflow Diagram
 ```mermaid
 graph TD;
-  "Webhook" --> "Slack";
+  A[No connections found] --> B[Check Workflow];
 ```
 
 ## Setup Instructions

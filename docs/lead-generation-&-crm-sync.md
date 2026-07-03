@@ -8,6 +8,13 @@ This is an exported n8n workflow for **Lead Generation & CRM Sync**.
 - **Clearbit** (n8n-nodes-base.clearbit)
 - **HubSpot** (n8n-nodes-base.hubspot)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Typeform Trigger" --> "Clearbit";
+  "Clearbit" --> "HubSpot";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

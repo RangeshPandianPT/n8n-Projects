@@ -8,6 +8,13 @@ This is an exported n8n workflow for **Automated Invoice Generator & Sender**.
 - **Generate PDF Invoice** (n8n-nodes-base.httpRequest)
 - **Send Email** (n8n-nodes-base.gmail)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Webhook" --> "Generate PDF Invoice";
+  "Generate PDF Invoice" --> "Send Email";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

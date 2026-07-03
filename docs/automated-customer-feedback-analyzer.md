@@ -1,18 +1,15 @@
-# DevOps Incident Alert Routing
+# Automated Customer Feedback Analyzer
 
 ## Overview
-This is an exported n8n workflow for **DevOps Incident Alert Routing**.
+This is an exported n8n workflow for **Automated Customer Feedback Analyzer**.
 
 ## Nodes Included
 - **Webhook** (n8n-nodes-base.webhook)
-- **If High Severity** (n8n-nodes-base.if)
-- **Slack Alert** (n8n-nodes-base.slack)
 
 ## Workflow Diagram
 ```mermaid
 graph TD;
-  "Webhook" --> "If High Severity";
-  "If High Severity" --> "Slack Alert";
+  A[No connections found] --> B[Check Workflow];
 ```
 
 ## Setup Instructions

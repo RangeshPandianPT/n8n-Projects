@@ -19,6 +19,18 @@ This is an exported n8n workflow for **AI Powered Telegram Personal Assistant**.
 - **Ollama Chat Model** (@n8n/n8n-nodes-langchain.lmChatOllama)
 - **Speech to Text** (@n8n/n8n-nodes-langchain.openAi)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "If" --> "Get Voice File";
+  "If" --> "Angie, AI Assistant 👩🏻‍🏫";
+  "Voice or Text" --> "If";
+  "Get Voice File" --> "Speech to Text";
+  "Listen for incoming events" --> "Voice or Text";
+  "Angie, AI Assistant 👩🏻‍🏫" --> "Telegram";
+  "Speech to Text" --> "Angie, AI Assistant 👩🏻‍🏫";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

@@ -7,6 +7,12 @@ This is an exported n8n workflow for **Global Error Handler**.
 - **Error Trigger** (n8n-nodes-base.errorTrigger)
 - **Telegram Alert** (n8n-nodes-base.telegram)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Error Trigger" --> "Telegram Alert";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

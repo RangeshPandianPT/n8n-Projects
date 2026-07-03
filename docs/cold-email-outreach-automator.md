@@ -9,6 +9,14 @@ This is an exported n8n workflow for **Cold Email Outreach Automator**.
 - **OpenAI - Personalize Email** (n8n-nodes-base.openAi)
 - **Gmail - Send Email** (n8n-nodes-base.gmail)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Schedule Trigger" --> "Google Sheets - Read Leads";
+  "Google Sheets - Read Leads" --> "OpenAI - Personalize Email";
+  "OpenAI - Personalize Email" --> "Gmail - Send Email";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

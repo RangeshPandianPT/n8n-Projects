@@ -26,6 +26,19 @@ This is an exported n8n workflow for **Automate LinkedIn post creation**.
 - **Sticky Note4** (n8n-nodes-base.stickyNote)
 - **Sticky Note9** (n8n-nodes-base.stickyNote)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Merge" --> "Create a post";
+  "Content Creator" --> "Hashtag Generator / SEO";
+  "Content Creator" --> "Generate an image";
+  "Generate an image" --> "Merge";
+  "Schedule Trigger1" --> "Set Before Starting";
+  "Set Before Starting" --> "Content Topic Generator";
+  "Content Topic Generator" --> "Content Creator";
+  "Hashtag Generator / SEO" --> "Merge";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

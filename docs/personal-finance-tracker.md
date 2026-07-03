@@ -8,6 +8,13 @@ This is an exported n8n workflow for **Personal Finance Tracker**.
 - **OpenAI** (n8n-nodes-base.openAi)
 - **Google Sheets** (n8n-nodes-base.googleSheets)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "Gmail Trigger" --> "OpenAI";
+  "OpenAI" --> "Google Sheets";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.

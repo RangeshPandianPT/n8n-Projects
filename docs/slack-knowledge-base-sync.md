@@ -1,16 +1,15 @@
-# E-commerce Order Notification
+# Slack Knowledge Base Sync
 
 ## Overview
-This is an exported n8n workflow for **E-commerce Order Notification**.
+This is an exported n8n workflow for **Slack Knowledge Base Sync**.
 
 ## Nodes Included
-- **Webhook** (n8n-nodes-base.webhook)
-- **Slack** (n8n-nodes-base.slack)
+- **Slack Trigger** (n8n-nodes-base.slackTrigger)
 
 ## Workflow Diagram
 ```mermaid
 graph TD;
-  "Webhook" --> "Slack";
+  A[No connections found] --> B[Check Workflow];
 ```
 
 ## Setup Instructions

@@ -9,6 +9,14 @@ This is an exported n8n workflow for **GitHub Issue to Project Management Sync**
 - **Create Notion Task** (n8n-nodes-base.notion)
 - **Slack Confirmation** (n8n-nodes-base.slack)
 
+## Workflow Diagram
+```mermaid
+graph TD;
+  "GitHub Trigger" --> "If Issue Opened";
+  "If Issue Opened" --> "Create Notion Task";
+  "Create Notion Task" --> "Slack Confirmation";
+```
+
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
 2. Review the nodes and configure necessary credentials.
