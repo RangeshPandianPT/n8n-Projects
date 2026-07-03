@@ -23,6 +23,33 @@ files.forEach(file => {
       nodesList.push('- No nodes found or invalid structure.');
     }
 
+    // Generate Mermaid Diagram
+    let mermaidLines = ['```mermaid', 'graph TD;'];
+    let hasConnections = false;
+    
+    if (workflow.connections) {
+      for (const [sourceNode, connectionData] of Object.entries(workflow.connections)) {
+        if (connectionData.main && Array.isArray(connectionData.main)) {
+          connectionData.main.forEach((outputConnections) => {
+            if (Array.isArray(outputConnections)) {
+              outputConnections.forEach(target => {
+                // escape quotes in node names
+                const source = sourceNode.replace(/"/g, "'");
+                const dest = target.node.replace(/"/g, "'");
+                mermaidLines.push(`  "${source}" --> "${dest}";`);
+                hasConnections = true;
+              });
+            }
+          });
+        }
+      }
+    }
+    
+    if (!hasConnections) {
+      mermaidLines.push('  A[No connections found] --> B[Check Workflow];');
+    }
+    mermaidLines.push('```');
+
     const title = file.replace('.json', '');
     
     const markdown = `# ${title}
@@ -32,6 +59,9 @@ This is an exported n8n workflow for **${title}**.
 
 ## Nodes Included
 ${nodesList.join('\n')}
+
+## Workflow Diagram
+${mermaidLines.join('\n')}
 
 ## Setup Instructions
 1. Import this workflow into your n8n instance.
