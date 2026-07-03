@@ -10,7 +10,10 @@
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1,
-      "position": [250, 300]
+      "position": [
+        250,
+        300
+      ]
     },
     {
       "parameters": {
@@ -20,7 +23,10 @@
       "name": "Scrape URL",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 1,
-      "position": [450, 300]
+      "position": [
+        450,
+        300
+      ]
     },
     {
       "parameters": {
@@ -36,7 +42,10 @@
       "name": "HTML Extract",
       "type": "n8n-nodes-base.htmlExtract",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [
+        650,
+        300
+      ]
     },
     {
       "parameters": {
@@ -47,7 +56,10 @@
       "name": "OpenAI - Categorize",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [850, 300]
+      "position": [
+        850,
+        300
+      ]
     },
     {
       "parameters": {
@@ -58,7 +70,10 @@
       "name": "Notion - Save Bookmark",
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2,
-      "position": [1050, 300]
+      "position": [
+        1050,
+        300
+      ]
     }
   ],
   "connections": {
@@ -107,5 +122,7 @@
       ]
     }
   },
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

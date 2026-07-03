@@ -9,7 +9,10 @@
       "name": "RSS Feed Trigger",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
-      "position": [180, 240]
+      "position": [
+        180,
+        240
+      ]
     },
     {
       "parameters": {
@@ -17,7 +20,10 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
-      "position": [400, 420],
+      "position": [
+        400,
+        420
+      ],
       "id": "b1a62d7c-87d2-45e0-b6a7-0e625a691b1a",
       "name": "Ollama Chat Model"
     },
@@ -31,7 +37,10 @@
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
-      "position": [400, 240],
+      "position": [
+        400,
+        240
+      ],
       "id": "42f2b3e8-54c3-4d69-b572-8d76dbcfb303",
       "name": "AI Social Media Creator"
     },
@@ -43,7 +52,10 @@
       },
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2,
-      "position": [600, 240],
+      "position": [
+        600,
+        240
+      ],
       "id": "slack-approval-node",
       "name": "Slack Approval Wait"
     },
@@ -53,7 +65,10 @@
       },
       "type": "n8n-nodes-base.twitter",
       "typeVersion": 2,
-      "position": [820, 140],
+      "position": [
+        820,
+        140
+      ],
       "id": "595f46ad-7d72-4cf4-9128-48b4fb9b6a05",
       "name": "Post to Twitter / X"
     },
@@ -63,7 +78,10 @@
       },
       "type": "n8n-nodes-base.linkedIn",
       "typeVersion": 1,
-      "position": [820, 340],
+      "position": [
+        820,
+        340
+      ],
       "id": "d047a503-4903-4cd2-b670-3d3cb0fb2f6d",
       "name": "Post to LinkedIn"
     }
@@ -71,30 +89,57 @@
   "connections": {
     "RSS Feed Trigger": {
       "main": [
-        [{"node": "AI Social Media Creator", "type": "main", "index": 0}]
+        [
+          {
+            "node": "AI Social Media Creator",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Ollama Chat Model": {
       "ai_languageModel": [
-        [{"node": "AI Social Media Creator", "type": "ai_languageModel", "index": 0}]
+        [
+          {
+            "node": "AI Social Media Creator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
       ]
     },
     "AI Social Media Creator": {
       "main": [
-        [{"node": "Slack Approval Wait", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Slack Approval Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Slack Approval Wait": {
       "main": [
         [
-          {"node": "Post to Twitter / X", "type": "main", "index": 0},
-          {"node": "Post to LinkedIn", "type": "main", "index": 0}
+          {
+            "node": "Post to Twitter / X",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     }
   },
   "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
   }
 }

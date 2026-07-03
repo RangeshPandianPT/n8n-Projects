@@ -353,7 +353,8 @@
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
   },
   "versionId": "3d9d2ee6-a539-4864-93be-497921390444",
   "connections": {

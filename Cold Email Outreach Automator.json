@@ -14,7 +14,10 @@
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1,
-      "position": [250, 300]
+      "position": [
+        250,
+        300
+      ]
     },
     {
       "parameters": {
@@ -24,7 +27,10 @@
       "name": "Google Sheets - Read Leads",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 1,
-      "position": [450, 300]
+      "position": [
+        450,
+        300
+      ]
     },
     {
       "parameters": {
@@ -35,7 +41,10 @@
       "name": "OpenAI - Personalize Email",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [
+        650,
+        300
+      ]
     },
     {
       "parameters": {
@@ -48,7 +57,10 @@
       "name": "Gmail - Send Email",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 1,
-      "position": [850, 300]
+      "position": [
+        850,
+        300
+      ]
     }
   ],
   "connections": {
@@ -86,5 +98,7 @@
       ]
     }
   },
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

@@ -15,7 +15,10 @@
       "name": "Daily Schedule",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
       "parameters": {
@@ -26,7 +29,10 @@
       "name": "Scrape Pricing Page",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [400, 300]
+      "position": [
+        400,
+        300
+      ]
     },
     {
       "parameters": {
@@ -45,7 +51,10 @@
       "name": "HTML Extract",
       "type": "n8n-nodes-base.html",
       "typeVersion": 1,
-      "position": [600, 300]
+      "position": [
+        600,
+        300
+      ]
     },
     {
       "parameters": {
@@ -65,7 +74,10 @@
       "name": "Get Previous Price",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4,
-      "position": [800, 300]
+      "position": [
+        800,
+        300
+      ]
     },
     {
       "parameters": {
@@ -83,7 +95,10 @@
       "name": "If Pricing Changed",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [1000, 300]
+      "position": [
+        1000,
+        300
+      ]
     },
     {
       "parameters": {
@@ -109,7 +124,10 @@
       "name": "Update Saved Price",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4,
-      "position": [1200, 200]
+      "position": [
+        1200,
+        200
+      ]
     },
     {
       "parameters": {
@@ -120,7 +138,10 @@
       "name": "Slack Alert",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2,
-      "position": [1200, 400]
+      "position": [
+        1200,
+        400
+      ]
     }
   ],
   "connections": {
@@ -185,5 +206,7 @@
       ]
     }
   },
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

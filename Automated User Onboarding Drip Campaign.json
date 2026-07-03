@@ -11,7 +11,10 @@
       "name": "Stripe / App Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
-      "position": [200, 300]
+      "position": [
+        200,
+        300
+      ]
     },
     {
       "parameters": {
@@ -24,7 +27,10 @@
       "name": "Send Welcome Email",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2,
-      "position": [450, 300]
+      "position": [
+        450,
+        300
+      ]
     },
     {
       "parameters": {
@@ -35,7 +41,10 @@
       "name": "Wait 2 Days",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [
+        650,
+        300
+      ]
     },
     {
       "parameters": {
@@ -48,7 +57,10 @@
       "name": "Send Pro Tips Email",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2,
-      "position": [850, 300]
+      "position": [
+        850,
+        300
+      ]
     },
     {
       "parameters": {
@@ -59,7 +71,10 @@
       "name": "Wait 5 Days",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1,
-      "position": [1050, 300]
+      "position": [
+        1050,
+        300
+      ]
     },
     {
       "parameters": {
@@ -72,7 +87,10 @@
       "name": "Send Feedback Email",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2,
-      "position": [1250, 300]
+      "position": [
+        1250,
+        300
+      ]
     }
   ],
   "connections": {
@@ -132,5 +150,7 @@
       ]
     }
   },
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

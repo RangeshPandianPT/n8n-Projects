@@ -12,7 +12,10 @@
       "name": "Webhook Trigger",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
-      "position": [100, 200]
+      "position": [
+        100,
+        200
+      ]
     },
     {
       "parameters": {
@@ -20,7 +23,10 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
-      "position": [300, 350],
+      "position": [
+        300,
+        350
+      ],
       "id": "ollama-model",
       "name": "Ollama Chat Model"
     },
@@ -34,7 +40,10 @@
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
-      "position": [300, 200],
+      "position": [
+        300,
+        200
+      ],
       "id": "ticket-classifier",
       "name": "Ticket Classifier Agent"
     },
@@ -48,7 +57,11 @@
               "outputKey": "Billing",
               "conditions": {
                 "conditions": [
-                  {"leftValue": "={{ $json.output.category }}", "operator": "equal", "rightValue": "Billing"}
+                  {
+                    "leftValue": "={{ $json.output.category }}",
+                    "operator": "equal",
+                    "rightValue": "Billing"
+                  }
                 ]
               }
             },
@@ -57,7 +70,11 @@
               "outputKey": "Technical",
               "conditions": {
                 "conditions": [
-                  {"leftValue": "={{ $json.output.category }}", "operator": "equal", "rightValue": "Technical"}
+                  {
+                    "leftValue": "={{ $json.output.category }}",
+                    "operator": "equal",
+                    "rightValue": "Technical"
+                  }
                 ]
               }
             }
@@ -67,7 +84,10 @@
       },
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3,
-      "position": [500, 200],
+      "position": [
+        500,
+        200
+      ],
       "id": "router",
       "name": "Route by Category"
     },
@@ -78,7 +98,10 @@
       },
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2,
-      "position": [700, 100],
+      "position": [
+        700,
+        100
+      ],
       "id": "slack-billing",
       "name": "Slack (Billing)"
     },
@@ -89,7 +112,10 @@
       },
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2,
-      "position": [700, 200],
+      "position": [
+        700,
+        200
+      ],
       "id": "slack-tech",
       "name": "Slack (Tech)"
     },
@@ -100,7 +126,10 @@
       },
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2,
-      "position": [700, 300],
+      "position": [
+        700,
+        300
+      ],
       "id": "slack-general",
       "name": "Slack (General)"
     }
@@ -108,27 +137,65 @@
   "connections": {
     "Webhook Trigger": {
       "main": [
-        [{"node": "Ticket Classifier Agent", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Ticket Classifier Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Ollama Chat Model": {
       "ai_languageModel": [
-        [{"node": "Ticket Classifier Agent", "type": "ai_languageModel", "index": 0}]
+        [
+          {
+            "node": "Ticket Classifier Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
       ]
     },
     "Ticket Classifier Agent": {
       "main": [
-        [{"node": "Route by Category", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Route by Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Route by Category": {
       "main": [
-        [{"node": "Slack (Billing)", "type": "main", "index": 0}],
-        [{"node": "Slack (Tech)", "type": "main", "index": 0}],
-        [{"node": "Slack (General)", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Slack (Billing)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack (Tech)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack (General)",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
   "active": false,
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

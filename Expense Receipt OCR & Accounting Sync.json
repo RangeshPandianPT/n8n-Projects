@@ -11,7 +11,10 @@
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1,
-      "position": [250, 300]
+      "position": [
+        250,
+        300
+      ]
     },
     {
       "parameters": {
@@ -28,7 +31,10 @@
       "name": "If photo exists",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [450, 300]
+      "position": [
+        450,
+        300
+      ]
     },
     {
       "parameters": {
@@ -39,7 +45,10 @@
       "name": "Download Photo",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [650, 200]
+      "position": [
+        650,
+        200
+      ]
     },
     {
       "parameters": {
@@ -56,7 +65,10 @@
       "name": "OpenAI Vision OCR",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [850, 200]
+      "position": [
+        850,
+        200
+      ]
     },
     {
       "parameters": {
@@ -85,7 +97,10 @@
       "name": "Google Sheets",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4,
-      "position": [1050, 200]
+      "position": [
+        1050,
+        200
+      ]
     },
     {
       "parameters": {
@@ -96,7 +111,10 @@
       "name": "Telegram Reply",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [1250, 200]
+      "position": [
+        1250,
+        200
+      ]
     }
   ],
   "connections": {
@@ -156,5 +174,7 @@
       ]
     }
   },
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

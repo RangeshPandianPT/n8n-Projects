@@ -15,7 +15,10 @@
       "name": "YouTube Trigger",
       "type": "n8n-nodes-base.youTubeTrigger",
       "typeVersion": 1,
-      "position": [250, 300]
+      "position": [
+        250,
+        300
+      ]
     },
     {
       "parameters": {
@@ -25,7 +28,10 @@
       "name": "Fetch Transcript",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 1,
-      "position": [450, 300]
+      "position": [
+        450,
+        300
+      ]
     },
     {
       "parameters": {
@@ -36,7 +42,10 @@
       "name": "OpenAI - Write Blog Post",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [
+        650,
+        300
+      ]
     },
     {
       "parameters": {
@@ -49,7 +58,10 @@
       "name": "WordPress - Draft Post",
       "type": "n8n-nodes-base.wordpress",
       "typeVersion": 1,
-      "position": [850, 300]
+      "position": [
+        850,
+        300
+      ]
     }
   ],
   "connections": {
@@ -87,5 +99,7 @@
       ]
     }
   },
-  "settings": {}
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
 }

@@ -82,7 +82,9 @@
     }
   },
   "active": false,
-  "settings": {},
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  },
   "id": "1",
   "meta": {
     "templateCredsSetupCompleted": true

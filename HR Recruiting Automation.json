@@ -332,7 +332,8 @@
   },
   "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
   },
   "versionId": "5828cb1e-d2f7-4398-ba72-80e62181042b",
   "meta": {

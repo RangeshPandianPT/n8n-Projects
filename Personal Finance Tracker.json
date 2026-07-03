@@ -105,7 +105,7 @@
   },
   "active": false,
   "settings": {
-    "errorWorkflow": "YOUR_GLOBAL_ERROR_HANDLER_ID"
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
   },
   "id": "personal-finance-tracker",
   "meta": {
