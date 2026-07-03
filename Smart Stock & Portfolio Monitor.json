@@ -1,0 +1,93 @@
+{
+  "name": "Smart Stock & Portfolio Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 17 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://www.alphavantage.co/query",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "function",
+              "value": "GLOBAL_QUOTE"
+            },
+            {
+              "name": "symbol",
+              "value": "AAPL"
+            },
+            {
+              "name": "apikey",
+              "value": "YOUR_API_KEY"
+            }
+          ]
+        }
+      },
+      "name": "Alpha Vantage API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "=AAPL Daily Update:\nPrice: {{ $json[\"Global Quote\"][\"05. price\"] }}\nChange: {{ $json[\"Global Quote\"][\"10. change percent\"] }}"
+      },
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule": {
+      "main": [
+        [
+          {
+            "node": "Alpha Vantage API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alpha Vantage API": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
+}

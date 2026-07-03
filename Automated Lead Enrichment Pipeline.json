@@ -1,0 +1,131 @@
+{
+  "name": "Automated Lead Enrichment Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-webhook"
+      },
+      "name": "Webhook (Lead Data)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://person.clearbit.com/v2/combined/find",
+        "authentication": "headerAuth",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "email",
+              "value": "={{ $json.body.email }}"
+            }
+          ]
+        }
+      },
+      "name": "Clearbit Enrichment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "message": [
+            {
+              "role": "system",
+              "content": "Generate a short, personalized cold outreach intro based on this lead's data."
+            },
+            {
+              "role": "user",
+              "content": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        }
+      },
+      "name": "OpenAI (Icebreaker)",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "create",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "property": "email",
+              "value": "={{ $node[\"Webhook (Lead Data)\"].json.body.email }}"
+            },
+            {
+              "property": "firstname",
+              "value": "={{ $node[\"Clearbit Enrichment\"].json.person.name.givenName }}"
+            },
+            {
+              "property": "message",
+              "value": "={{ $json.message.content }}"
+            }
+          ]
+        }
+      },
+      "name": "HubSpot Sync",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (Lead Data)": {
+      "main": [
+        [
+          {
+            "node": "Clearbit Enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clearbit Enrichment": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (Icebreaker)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Icebreaker)": {
+      "main": [
+        [
+          {
+            "node": "HubSpot Sync",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+  }
+}
