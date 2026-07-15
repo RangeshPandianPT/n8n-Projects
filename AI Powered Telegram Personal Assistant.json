@@ -177,7 +177,7 @@
         }
       },
       "id": "0467a174-f5be-48db-ba31-19e97c17a631",
-      "name": "Angie, AI Assistant 👩🏻‍🏫",
+      "name": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
         1776,
@@ -282,7 +282,7 @@
         ],
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "main",
             "index": 0
           }
@@ -293,7 +293,7 @@
       "ai_tool": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "ai_tool",
             "index": 0
           }
@@ -304,7 +304,7 @@
       "ai_tool": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "ai_tool",
             "index": 0
           }
@@ -315,7 +315,7 @@
       "ai_tool": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "ai_tool",
             "index": 0
           }
@@ -348,7 +348,7 @@
       "ai_tool": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "ai_tool",
             "index": 0
           }
@@ -359,7 +359,7 @@
       "ai_memory": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "ai_memory",
             "index": 0
           }
@@ -377,7 +377,7 @@
         ]
       ]
     },
-    "Angie, AI Assistant 👩🏻‍🏫": {
+    "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb": {
       "main": [
         [
           {
@@ -392,7 +392,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -403,7 +403,7 @@
       "main": [
         [
           {
-            "node": "Angie, AI Assistant 👩🏻‍🏫",
+            "node": "Angie, AI Assistant \ud83d\udc69\ud83c\udffb\u200d\ud83c\udfeb",
             "type": "main",
             "index": 0
           }
@@ -414,7 +414,7 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   },
   "versionId": "ff0e8947-6df5-425d-abf3-42697a2889a9",
   "meta": {

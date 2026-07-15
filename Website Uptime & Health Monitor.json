@@ -59,7 +59,7 @@
     {
       "parameters": {
         "webhookUri": "YOUR_DISCORD_WEBHOOK_URL",
-        "text": "🚨 ALERT: Website is DOWN! Status code: {{ $json.statusCode }}"
+        "text": "\ud83d\udea8 ALERT: Website is DOWN! Status code: {{ $json.statusCode }}"
       },
       "name": "Discord - Send Alert",
       "type": "n8n-nodes-base.discord",
@@ -106,6 +106,6 @@
     }
   },
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   }
 }

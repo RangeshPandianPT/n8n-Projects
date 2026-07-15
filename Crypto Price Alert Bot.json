@@ -58,8 +58,8 @@
     },
     {
       "parameters": {
-        "chatId": "YOUR_CHAT_ID",
-        "text": "🚀 Bitcoin price alert! Current price is ${{ $json.bitcoin.usd }}!"
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "\ud83d\ude80 Bitcoin price alert! Current price is ${{ $json.bitcoin.usd }}!"
       },
       "id": "node-telegram",
       "name": "Telegram",
@@ -108,7 +108,7 @@
   },
   "active": false,
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   },
   "id": "crypto-price-alert",
   "meta": {

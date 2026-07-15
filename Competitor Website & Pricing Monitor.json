@@ -132,7 +132,7 @@
     {
       "parameters": {
         "channel": "competitor-alerts",
-        "text": "🚨 Competitor pricing has changed! Check out the website. \n\nNew data: {{ $json.pricingPlans }}"
+        "text": "\ud83d\udea8 Competitor pricing has changed! Check out the website. \n\nNew data: {{ $json.pricingPlans }}"
       },
       "id": "slack",
       "name": "Slack Alert",
@@ -207,6 +207,6 @@
     }
   },
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   }
 }

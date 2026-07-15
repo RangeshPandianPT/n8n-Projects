@@ -99,7 +99,7 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   },
   "versionId": "5f2fb361-97f3-4a4f-bcd7-431655b438eb",
   "meta": {

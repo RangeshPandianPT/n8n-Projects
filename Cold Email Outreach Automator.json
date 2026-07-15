@@ -22,7 +22,7 @@
     {
       "parameters": {
         "operation": "read",
-        "sheetId": "YOUR_SHEET_ID"
+        "sheetId": "={{ $env.GOOGLE_SHEET_ID }}"
       },
       "name": "Google Sheets - Read Leads",
       "type": "n8n-nodes-base.googleSheets",
@@ -99,6 +99,6 @@
     }
   },
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   }
 }

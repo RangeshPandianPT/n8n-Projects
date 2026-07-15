@@ -47,7 +47,7 @@
   },
   "active": false,
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   },
   "id": "2",
   "meta": {

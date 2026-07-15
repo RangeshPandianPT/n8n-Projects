@@ -54,7 +54,7 @@
         "text": "=Candidate Data:\n{{ JSON.stringify($json.candidates) }}\n\nClient Required Tech Stack:\n{{ JSON.stringify($json.requiredTechStack) }}\n\nAdditional Instructions:\n{{ $json.additionalInstructions || \"None\" }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "You are an HR automation assistant specialized in candidate filtering and scoring.\n\nYour task is to analyze candidate profiles against client requirements and return structured results.\n\n## SCORING LOGIC\n\nFor each candidate, calculate match score using:\n- Exact keyword match: +5 points\n- Partial match / synonym: +3 points\n- Relevant experience keyword: +2 points\n- Irrelevant / mismatch: 0 points\n\nCalculate:\n- Match Score = Sum of all relevant points\n- Match Percentage = (Match Score / Maximum Possible Score) × 100\n\n## DECISION RULES\n\nA candidate is \"Shortlisted\" if:\n- Match percentage ≥ 60%\n- Experience within required range (if specified)\n- Location matches (if required)\n- Notice period acceptable (if provided)\n\nOtherwise: \"Rejected\"\n\n## OUTPUT FORMAT\n\nReturn a JSON array of candidate objects with:\n- candidateName\n- experience\n- skills (array)\n- location\n- noticePeriod\n- currentCompany\n- expectedSalary\n- matchScore (number)\n- matchPercentage (number)\n- status (\"Shortlisted\" or \"Rejected\")\n- matchedSkills (array of matched keywords)\n- reasoning (brief explanation of decision)\n\nOnly include candidates that meet the criteria. Be thorough in skill matching and consider synonyms and related technologies."
+          "systemMessage": "You are an HR automation assistant specialized in candidate filtering and scoring.\n\nYour task is to analyze candidate profiles against client requirements and return structured results.\n\n## SCORING LOGIC\n\nFor each candidate, calculate match score using:\n- Exact keyword match: +5 points\n- Partial match / synonym: +3 points\n- Relevant experience keyword: +2 points\n- Irrelevant / mismatch: 0 points\n\nCalculate:\n- Match Score = Sum of all relevant points\n- Match Percentage = (Match Score / Maximum Possible Score) \u00d7 100\n\n## DECISION RULES\n\nA candidate is \"Shortlisted\" if:\n- Match percentage \u2265 60%\n- Experience within required range (if specified)\n- Location matches (if required)\n- Notice period acceptable (if provided)\n\nOtherwise: \"Rejected\"\n\n## OUTPUT FORMAT\n\nReturn a JSON array of candidate objects with:\n- candidateName\n- experience\n- skills (array)\n- location\n- noticePeriod\n- currentCompany\n- expectedSalary\n- matchScore (number)\n- matchPercentage (number)\n- status (\"Shortlisted\" or \"Rejected\")\n- matchedSkills (array of matched keywords)\n- reasoning (brief explanation of decision)\n\nOnly include candidates that meet the criteria. Be thorough in skill matching and consider synonyms and related technologies."
         }
       },
       "id": "1d1bae7b-fe36-47c3-8ab0-92d1084185f0",
@@ -333,7 +333,7 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   },
   "versionId": "5828cb1e-d2f7-4398-ba72-80e62181042b",
   "meta": {

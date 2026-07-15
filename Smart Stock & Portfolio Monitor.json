@@ -51,7 +51,7 @@
     },
     {
       "parameters": {
-        "chatId": "YOUR_CHAT_ID",
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
         "text": "=AAPL Daily Update:\nPrice: {{ $json[\"Global Quote\"][\"05. price\"] }}\nChange: {{ $json[\"Global Quote\"][\"10. change percent\"] }}"
       },
       "name": "Telegram",
@@ -88,6 +88,6 @@
     }
   },
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   }
 }
