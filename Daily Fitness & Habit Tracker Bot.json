@@ -3,17 +3,34 @@
   "nodes": [
     {
       "parameters": {
-        "updates": [
-          "message"
-        ]
+        "updates": ["message"]
       },
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1,
-      "position": [
-        250,
-        300
-      ]
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "dataType": "boolean",
+        "value1": "={{ $json.message.photo ? true : false }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": true,
+              "output": 0
+            },
+            {
+              "value2": false,
+              "output": 1
+            }
+          ]
+        }
+      },
+      "name": "Switch - Text or Photo",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [450, 300]
     },
     {
       "parameters": {
@@ -24,36 +41,48 @@
       "name": "OpenAI - Parse Habits",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [
-        450,
-        300
-      ]
+      "position": [650, 450]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "prompt": "Analyze this photo of a workout or meal and extract the relevant fitness details (exercise type, calories, etc.). Output as JSON.",
+        "vision": true
+      },
+      "name": "OpenAI Vision - Parse Photo",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [650, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.item.json.message.content;\nlet parsed = {};\ntry {\n  parsed = JSON.parse(response);\n} catch(e) {\n  const jsonMatch = response.match(/\\{.*\\}/s);\n  if (jsonMatch) {\n    parsed = JSON.parse(jsonMatch[0]);\n  }\n}\nreturn parsed;"
+      },
+      "name": "Code - Parse JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [850, 300]
     },
     {
       "parameters": {
         "operation": "append",
-        "sheetId": "YOUR_SHEET_ID"
+        "sheetId": "={{ $env.GOOGLE_SHEET_ID }}"
       },
       "name": "Google Sheets - Log Data",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 1,
-      "position": [
-        650,
-        300
-      ]
+      "position": [1050, 300]
     },
     {
       "parameters": {
-        "chatId": "={{ $node['Telegram Trigger'].json.message.chat.id }}",
-        "text": "Great! I've logged your habits for today."
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "Great! I've logged your habits and workout for today."
       },
       "name": "Telegram - Send Confirmation",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [
-        850,
-        300
-      ]
+      "position": [1250, 300]
     },
     {
       "parameters": {
@@ -69,28 +98,40 @@
       "name": "Cron (8 PM Reminder)",
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
-      "position": [
-        250,
-        500
-      ]
+      "position": [250, 500]
     },
     {
       "parameters": {
-        "chatId": "YOUR_CHAT_ID",
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
         "text": "Hey! It's 8 PM. Don't forget to log your habits and workout for today!"
       },
       "name": "Telegram - Send Reminder",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [
-        450,
-        500
-      ]
+      "position": [450, 500]
     }
   ],
   "connections": {
     "Telegram Trigger": {
       "main": [
+        [
+          {
+            "node": "Switch - Text or Photo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch - Text or Photo": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Vision - Parse Photo",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "OpenAI - Parse Habits",
@@ -101,6 +142,28 @@
       ]
     },
     "OpenAI - Parse Habits": {
+      "main": [
+        [
+          {
+            "node": "Code - Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Vision - Parse Photo": {
+      "main": [
+        [
+          {
+            "node": "Code - Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Parse JSON": {
       "main": [
         [
           {
@@ -135,6 +198,6 @@
     }
   },
   "settings": {
-    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID"
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   }
 }
