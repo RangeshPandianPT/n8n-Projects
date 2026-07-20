@@ -127,6 +127,18 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `Automated Customer Feedback Analyzer.json`
 - **Description:** Monitors survey responses, analyzes sentiment, and routes negative reviews to a priority channel.
 
+### Automated Server Backup & Notification
+- **File:** `Automated Server Backup & Notification.json`
+- **Description:** Triggers on a schedule to execute a database backup command, uploads the backup to AWS S3, and sends a confirmation to Slack.
+
+### SaaS User Churn Prediction Alerting
+- **File:** `SaaS User Churn Prediction Alerting.json`
+- **Description:** Reads user activity logs from a database, uses OpenAI to evaluate churn probability, and alerts the customer success team via Slack for high-risk users.
+
+### Podcast to Social Media Snippets Generator
+- **File:** `Podcast to Social Media Snippets Generator.json`
+- **Description:** Triggers on a new audio file in Google Drive, uses OpenAI Whisper to transcribe, generates 3 social media posts via GPT-4, and creates drafts in Buffer.
+
 ## 📂 Repository Structure
 
 * **`docs/`**
@@ -208,6 +220,15 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **GitHub Issue to Project Management Sync.json**
   Syncs new GitHub issues to Notion/Jira boards automatically.
+
+* **Automated Server Backup & Notification.json**
+  Automates the process of dumping a database, backing it up to S3, and sending a status notification to Slack.
+
+* **SaaS User Churn Prediction Alerting.json**
+  Evaluates database records using AI to predict and alert on user churn risk.
+
+* **Podcast to Social Media Snippets Generator.json**
+  Transcribes audio files from Google Drive and generates social media snippet drafts in Buffer using AI.
 
 ## 🛠️ Tech Stack
 
