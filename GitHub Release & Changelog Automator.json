@@ -1,0 +1,101 @@
+{
+  "name": "GitHub Release & Changelog Automator",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "accessToken",
+        "owner": "={{ $env.GITHUB_REPO_OWNER }}",
+        "repository": "={{ $env.GITHUB_REPO_NAME }}",
+        "events": [
+          "release"
+        ]
+      },
+      "id": "4001",
+      "name": "GitHub Release Webhook",
+      "type": "n8n-nodes-base.githubTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "prompt": "You are a developer advocate. Summarize these technical GitHub release notes and commit messages into an exciting, user-friendly changelog announcement for our community: {{ $json.release.body }}"
+      },
+      "id": "4002",
+      "name": "OpenAI - Summarize Changelog",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "webhookUri": "={{ $env.DISCORD_ANNOUNCEMENTS_WEBHOOK_URL }}",
+        "text": "\ud83d\ude80 **New Release: {{ $node['GitHub Release Webhook'].json.release.tag_name }} is here!**\n\n{{ $json.text }}\n\n\ud83d\udd17 **View Release:** {{ $node['GitHub Release Webhook'].json.release.html_url }}"
+      },
+      "id": "4003",
+      "name": "Discord - Community Announcement",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [
+        650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "announcements@yourcompany.com",
+        "toEmail": "subscribers@yourcompany.com",
+        "subject": "\ud83c\udf89 Product Update: {{ $node['GitHub Release Webhook'].json.release.name || $node['GitHub Release Webhook'].json.release.tag_name }} Released!",
+        "html": "={{ '<h2>New Product Release!</h2><p>' + $json.text.replace(/\\n/g, '<br>') + '</p><p><a href=\"' + $node['GitHub Release Webhook'].json.release.html_url + '\">Read more on GitHub</a></p>' }}"
+      },
+      "id": "4004",
+      "name": "Email - Newsletter Broadcast",
+      "type": "n8n-nodes-base.sendEmail",
+      "typeVersion": 1,
+      "position": [
+        650,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "GitHub Release Webhook": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Summarize Changelog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Summarize Changelog": {
+      "main": [
+        [
+          {
+            "node": "Discord - Community Announcement",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email - Newsletter Broadcast",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
+  },
+  "id": "github-changelog-automator"
+}
