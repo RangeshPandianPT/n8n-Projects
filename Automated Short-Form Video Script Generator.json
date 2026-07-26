@@ -1,0 +1,128 @@
+{
+  "name": "Automated Short-Form Video Script Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/feed/",
+        "options": {}
+      },
+      "id": "3001",
+      "name": "RSS - Trending Articles",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "prompt": "You are a viral social media producer. Analyze this news article and generate: 1) A catchy 60-second video script for TikTok/Reels with visual cues and voiceover lines. 2) A prompt for generating a captivating thumbnail image. Article Title: {{ $json.title }}\nArticle Summary: {{ $json.contentSnippet }}"
+      },
+      "id": "3002",
+      "name": "OpenAI - Generate Script & Assets",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "prompt": "={{ $json.text.split('Thumbnail Prompt:')[1] || 'Futuristic tech illustration, cinematic lighting, 8k resolution, vibrant colors' }}"
+      },
+      "id": "3003",
+      "name": "DALL-E - Generate Thumbnail Preview",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "name": "={{ $node['RSS - Trending Articles'].json.title.slice(0, 50) }} - Video Script.txt",
+        "content": "={{ $node['OpenAI - Generate Script & Assets'].json.text }}",
+        "parents": [
+          "={{ $env.GOOGLE_DRIVE_FOLDER_ID }}"
+        ]
+      },
+      "id": "3004",
+      "name": "Google Drive - Save Script File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#video-production",
+        "text": "\ud83c\udfac **New Video Script Ready for Production!**\n\u2022 **Topic:** {{ $node['RSS - Trending Articles'].json.title }}\n\u2022 **Drive File:** Saved to production folder\n\u2022 **Preview:**\n```\n{{ $node['OpenAI - Generate Script & Assets'].json.text.slice(0, 300) }}...\n```"
+      },
+      "id": "3005",
+      "name": "Slack - Production Notify",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "RSS - Trending Articles": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Script & Assets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Script & Assets": {
+      "main": [
+        [
+          {
+            "node": "DALL-E - Generate Thumbnail Preview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DALL-E - Generate Thumbnail Preview": {
+      "main": [
+        [
+          {
+            "node": "Google Drive - Save Script File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive - Save Script File": {
+      "main": [
+        [
+          {
+            "node": "Slack - Production Notify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
+  },
+  "id": "video-script-generator"
+}
