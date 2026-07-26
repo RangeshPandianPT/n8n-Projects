@@ -3,12 +3,17 @@
   "nodes": [
     {
       "parameters": {
-        "updates": ["message"]
+        "updates": [
+          "message"
+        ]
       },
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1,
-      "position": [250, 300]
+      "position": [
+        250,
+        300
+      ]
     },
     {
       "parameters": {
@@ -30,7 +35,10 @@
       "name": "Switch - Text or Photo",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 1,
-      "position": [450, 300]
+      "position": [
+        450,
+        300
+      ]
     },
     {
       "parameters": {
@@ -41,7 +49,10 @@
       "name": "OpenAI - Parse Habits",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [650, 450]
+      "position": [
+        650,
+        450
+      ]
     },
     {
       "parameters": {
@@ -53,7 +64,10 @@
       "name": "OpenAI Vision - Parse Photo",
       "type": "n8n-nodes-base.openAi",
       "typeVersion": 1,
-      "position": [650, 200]
+      "position": [
+        650,
+        200
+      ]
     },
     {
       "parameters": {
@@ -62,7 +76,10 @@
       "name": "Code - Parse JSON",
       "type": "n8n-nodes-base.code",
       "typeVersion": 1,
-      "position": [850, 300]
+      "position": [
+        850,
+        300
+      ]
     },
     {
       "parameters": {
@@ -72,7 +89,10 @@
       "name": "Google Sheets - Log Data",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 1,
-      "position": [1050, 300]
+      "position": [
+        1050,
+        300
+      ]
     },
     {
       "parameters": {
@@ -82,7 +102,10 @@
       "name": "Telegram - Send Confirmation",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [1250, 300]
+      "position": [
+        1250,
+        300
+      ]
     },
     {
       "parameters": {
@@ -98,7 +121,10 @@
       "name": "Cron (8 PM Reminder)",
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
-      "position": [250, 500]
+      "position": [
+        250,
+        500
+      ]
     },
     {
       "parameters": {
@@ -108,7 +134,10 @@
       "name": "Telegram - Send Reminder",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [450, 500]
+      "position": [
+        450,
+        500
+      ]
     }
   ],
   "connections": {
