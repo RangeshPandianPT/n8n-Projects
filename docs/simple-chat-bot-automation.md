@@ -6,6 +6,8 @@ This is an exported n8n workflow for **Simple chat bot automation**.
 ## Nodes Included
 - **Ollama Chat Model** (@n8n/n8n-nodes-langchain.lmChatOllama)
 - **Simple Memory** (@n8n/n8n-nodes-langchain.memoryBufferWindow)
+- **Calculator Tool** (@n8n/n8n-nodes-langchain.toolCalculator)
+- **Wikipedia Tool** (@n8n/n8n-nodes-langchain.toolWikipedia)
 - **When chat message received** (@n8n/n8n-nodes-langchain.chatTrigger)
 - **AI Agent** (@n8n/n8n-nodes-langchain.agent)
 

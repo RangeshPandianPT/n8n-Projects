@@ -36,6 +36,32 @@
       "parameters": {
         "options": {}
       },
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        950,
+        176
+      ],
+      "id": "tool-calculator-node",
+      "name": "Calculator Tool"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        176
+      ],
+      "id": "tool-wikipedia-node",
+      "name": "Wikipedia Tool"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
@@ -48,7 +74,9 @@
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "systemMessage": "You are a helpful AI Assistant with access to a Calculator tool for math and a Wikipedia tool for factual research. Use tools whenever needed to answer user questions accurately."
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
@@ -84,6 +112,28 @@
         ]
       ]
     },
+    "Calculator Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "When chat message received": {
       "main": [
         [
@@ -102,10 +152,6 @@
     "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
   },
   "versionId": "5f2fb361-97f3-4a4f-bcd7-431655b438eb",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "f151dfbd0d64ca44dfa6f91dda8f8ea200bf584ed90203b549713a64a8c17fa4"
-  },
   "id": "RAd4sI7qnMZturPD",
   "tags": []
 }
