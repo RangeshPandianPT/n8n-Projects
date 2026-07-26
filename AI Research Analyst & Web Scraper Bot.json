@@ -1,0 +1,160 @@
+{
+  "name": "AI Research Analyst & Web Scraper Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "1001",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.perplexity.ai/chat/completions",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.PERPLEXITY_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"sonar-reasoning\",\n  \"messages\": [\n    {\"role\": \"system\", \"content\": \"You are an expert research analyst. Conduct thorough web research and summarize key facts, figures, and sources for the user topic.\"},\n    {\"role\": \"user\", \"content\": \"{{ $json.message.text }}\"}\n  ]\n}"
+      },
+      "id": "1002",
+      "name": "Perplexity Research API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "prompt": "Format the following research findings from Perplexity into a clean, professional Executive Summary report suitable for a Notion database. Include sections for Overview, Key Insights, Data Points, and Recommended Actions: {{ $json.choices[0].message.content }}"
+      },
+      "id": "1003",
+      "name": "OpenAI - Format Report",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": "={{ $env.NOTION_RESEARCH_DB_ID }}",
+        "title": "={{ $node['Telegram Trigger'].json.message.text }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Completed"
+            },
+            {
+              "key": "Summary|text",
+              "textValue": "={{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "id": "1004",
+      "name": "Notion - Save Report",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node['Telegram Trigger'].json.message.chat.id }}",
+        "text": "\u2705 Your AI research report on \"{{ $node['Telegram Trigger'].json.message.text }}\" has been compiled and saved to Notion!\n\n**Preview:**\n{{ $node['OpenAI - Format Report'].json.text.slice(0, 400) }}..."
+      },
+      "id": "1005",
+      "name": "Telegram - Confirmation",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Perplexity Research API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity Research API": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Format Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Format Report": {
+      "main": [
+        [
+          {
+            "node": "Notion - Save Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion - Save Report": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
+  },
+  "id": "ai-research-analyst"
+}
