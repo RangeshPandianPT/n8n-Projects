@@ -1,0 +1,165 @@
+{
+  "name": "Stripe & Accounting Reconciliation Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stripe-webhook",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "2001",
+      "name": "Stripe Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.type }}",
+              "operation": "startsWith",
+              "value2": "charge."
+            }
+          ]
+        }
+      },
+      "id": "2002",
+      "name": "IF - Is Charge Event",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "transaction_id",
+              "value": "={{ $json.body.data.object.id }}"
+            },
+            {
+              "name": "amount_usd",
+              "value": "={{ $json.body.data.object.amount / 100 }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.body.data.object.status }}"
+            },
+            {
+              "name": "customer_email",
+              "value": "={{ $json.body.data.object.billing_details.email || 'N/A' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2003",
+      "name": "Normalize Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "application": "={{ $env.AIRTABLE_ACCOUNTING_BASE_ID }}",
+        "table": "Ledger",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Transaction ID": "={{ $json.transaction_id }}",
+            "Amount": "={{ $json.amount_usd }}",
+            "Status": "={{ $json.status }}",
+            "Customer Email": "={{ $json.customer_email }}",
+            "Timestamp": "={{ $now }}"
+          }
+        }
+      },
+      "id": "2004",
+      "name": "Airtable - Log Transaction",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "#finance-alerts",
+        "text": "\ud83d\udcb0 **New Stripe Transaction Logged**\n\u2022 **ID:** `{{ $json.transaction_id }}`\n\u2022 **Amount:** `${{ $json.amount_usd }}`\n\u2022 **Status:** {{ $json.status }}\n\u2022 **Customer:** {{ $json.customer_email }}"
+      },
+      "id": "2005",
+      "name": "Slack - Finance Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Stripe Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF - Is Charge Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Is Charge Event": {
+      "main": [
+        [
+          {
+            "node": "Normalize Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Data": {
+      "main": [
+        [
+          {
+            "node": "Airtable - Log Transaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable - Log Transaction": {
+      "main": [
+        [
+          {
+            "node": "Slack - Finance Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "={{ $env.GLOBAL_ERROR_HANDLER_ID }}"
+  },
+  "id": "stripe-accounting-bot"
+}
