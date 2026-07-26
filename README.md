@@ -139,6 +139,34 @@ This repository contains a collection of n8n workflows for various automation ta
 - **File:** `Podcast to Social Media Snippets Generator.json`
 - **Description:** Triggers on a new audio file in Google Drive, uses OpenAI Whisper to transcribe, generates 3 social media posts via GPT-4, and creates drafts in Buffer.
 
+### Automated Lead Enrichment Pipeline
+- **File:** `Automated Lead Enrichment Pipeline.json`
+- **Description:** Automatically enriches incoming lead data using Clearbit and routes qualified prospects to CRM and sales channels.
+
+### Notion & Google Calendar Sync
+- **File:** `Notion & Google Calendar Sync.json`
+- **Description:** Provides seamless two-way synchronization between Notion database items and Google Calendar events.
+
+### Smart Stock & Portfolio Monitor
+- **File:** `Smart Stock & Portfolio Monitor.json`
+- **Description:** Monitors stock prices and portfolio performance, triggering automated alerts on significant price shifts or market movements.
+
+### AI Research Analyst & Web Scraper Bot
+- **File:** `AI Research Analyst & Web Scraper Bot.json`
+- **Description:** Conducts deep-dive web research using Perplexity AI, synthesizes findings into an executive summary report with GPT-4, and saves it directly to a Notion database.
+
+### Stripe & Accounting Reconciliation Bot
+- **File:** `Stripe & Accounting Reconciliation Bot.json`
+- **Description:** Listens for Stripe payment charge webhooks, logs transaction details to an Airtable financial ledger, and posts real-time revenue notifications to Slack.
+
+### Automated Short-Form Video Script Generator
+- **File:** `Automated Short-Form Video Script Generator.json`
+- **Description:** Fetches trending RSS articles, generates viral 60-second video scripts and thumbnail prompts with OpenAI, saves scripts to Google Drive, and alerts the video team on Slack.
+
+### GitHub Release & Changelog Automator
+- **File:** `GitHub Release & Changelog Automator.json`
+- **Description:** Triggers on GitHub releases, generates user-friendly community changelog announcements using GPT-4, posts to Discord, and broadcasts newsletter updates via email.
+
 ## 📂 Repository Structure
 
 * **`docs/`**
@@ -229,6 +257,27 @@ Each file in this repository represents an independent n8n workflow exported in 
 
 * **Podcast to Social Media Snippets Generator.json**
   Transcribes audio files from Google Drive and generates social media snippet drafts in Buffer using AI.
+
+* **Automated Lead Enrichment Pipeline.json**
+  Automatically enriches incoming lead data using Clearbit and routes qualified prospects to CRM and sales channels.
+
+* **Notion & Google Calendar Sync.json**
+  Provides seamless two-way synchronization between Notion database items and Google Calendar events.
+
+* **Smart Stock & Portfolio Monitor.json**
+  Monitors stock prices and portfolio performance, triggering automated alerts on significant price shifts or market movements.
+
+* **AI Research Analyst & Web Scraper Bot.json**
+  Conducts deep-dive web research using Perplexity AI, synthesizes findings into an executive summary report with GPT-4, and saves it directly to a Notion database.
+
+* **Stripe & Accounting Reconciliation Bot.json**
+  Listens for Stripe payment charge webhooks, logs transaction details to an Airtable financial ledger, and posts real-time revenue notifications to Slack.
+
+* **Automated Short-Form Video Script Generator.json**
+  Fetches trending RSS articles, generates viral 60-second video scripts and thumbnail prompts with OpenAI, saves scripts to Google Drive, and alerts the video team on Slack.
+
+* **GitHub Release & Changelog Automator.json**
+  Triggers on GitHub releases, generates user-friendly community changelog announcements using GPT-4, posts to Discord, and broadcasts newsletter updates via email.
 
 ## 🛠️ Tech Stack
 
